@@ -13,9 +13,9 @@ using namespace std;
 
 int main()
 {
-    double s3h=20./640.,s3v=2./640.;// slit size
-    vector<unsigned int> dist_theta;
-    int theta_steps=(int)(M_PI/s3h+0.5);
+            double s3h=20./640.,s3v=2./640.;// slit size
+            vector<unsigned int> dist_theta;
+            int theta_steps=(int)(M_PI/s3h+0.5);
 
     dist_theta.resize(theta_steps+2);
     for (unsigned int i=0;i<dist_theta.size();i++) dist_theta.at(i)=0;
@@ -44,20 +44,20 @@ int main()
     ofstream out1;
     double l3=0.;
     int ii=1;
-    double      muC= 0.15 * 2.33; // in cm^-1, compton
-    double  muTotal=1.31 * 2.33; // in cm^-1, total
+  double      muC= 0.15 * 2.33; // in cm^-1, compton
+  double  muTotal=1.31 * 2.33; // in cm^-1, total
     double compton_ratio_factor=muC/muTotal; //weight factor for each scattering
-    double psum;
-    double pEn=30.; //KeV
-    double pLambda=E_to_l(pEn);
-    double pk0=2*M_PI/pLambda;
+        double psum;
+        double pEn=30.; //KeV
+        double pLambda=E_to_l(pEn);
+        double pk0=2*M_PI/pLambda;
     double fac1=1./(2.*pk0*l1); // q_z range up to 1 angstrom^-1
-    thetaDistribution tP0(pEn);
-    photon p0;
+            thetaDistribution tP0(pEn);
+            photon p0;
 
     struct rusage r_start,r_end;
     getrusage(RUSAGE_SELF, &r_start);
-    psum=0;
+        psum=0;
     while (ii<l1){
         double t1= -ii*fac1;
 //#pragma omp parallel for private( j,t0 ) reduction(+:sum) schedule(static)
@@ -65,11 +65,11 @@ int main()
             //if (p0.initRefBuried(t1)) continue;
             p0.initRefBuried(t1);
 
-            while ((j=p0.propagateRef(tP0.theta()))==1);
+                while((j=p0.propagateRef(tP0.theta()))==1);
             // if( i && ((i>>18 ) <<18) == i) cout<<"i="<<i<<endl;
             if (j==-1 ) {//scattered out of sample
                 //    cout<<i<<' '<<p0.o.theta<<endl;
-                // cout<<i<<' '<<tP0.theta()<<' '<<p0.o.st<<' '<<p0.o.sp<<endl;
+                   // cout<<i<<' '<<tP0.theta()<<' '<<p0.o.st<<' '<<p0.o.sp<<endl;
                 if (p0.scattered && fabs(p0.o.sp+t1)<s3v && fabs(p0.o.st)<s3h) psum += pow(compton_ratio_factor,(int) p0.scattered);
             }
         }

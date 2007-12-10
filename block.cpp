@@ -120,8 +120,8 @@ Coordinates operator *(double a,Coordinates b)
 
 ostream & operator << ( ostream& os,Coordinates b)
 {
-    os<<b.x<<' '<<b.y<<' '<<b.z;
-    return os;
+        os<<b.x<<' '<<b.y<<' '<<b.z;
+        return os;
 }
 
 photon::photon()
@@ -129,7 +129,7 @@ photon::photon()
     muPE= 1.16 * 2.33; // in cm^-1, PhotoElectric
     muC= 0.15 * 2.33; // in cm^-1, compton
     muTotal=1.31 * 2.33; // in cm^-1, total
-    // compton_ratio=(int) ( RAND_MAX*muC/muTotal);
+   // compton_ratio=(int) ( RAND_MAX*muC/muTotal);
     imuTotal=1./muTotal;
     sampleL=-2.54*0.25;
     R2= (1+1e-8)*sampleL* sampleL;
@@ -140,7 +140,7 @@ photon::photon()
 
 int photon::init()
 {
-    scattered=0;
+        scattered=0;
     r.y= - sampleL- log(random()/(RAND_MAX+1.0)+1e-16)*imuTotal;
     if (r.y>=sampleL) return(1);
     r.x=r.z=0.;
@@ -152,19 +152,17 @@ int photon::init()
 }
 int photon::initRef(double phi0)
 {
-    scattered=0;
+        scattered=0;
     r0= log((RAND_MAX+1.0)/(random()+(long int) 1))*imuTotal;
-    cp0=cos(phi0);
-    r.y=r0*cp0;
+cp0=cos(phi0);
+r.y=r0*cp0;
     if (r.y>=sampleL) return(1);
-    sp0=sin(phi0);
-    r.z=r0*sp0;
-    r.x=0.;
+sp0=sin(phi0);
+r.z=r0*sp0;
+r.x=0.;
     //r=Coordinates(0.,r0*cos(phi0),r0*sin(phi0));
-    o.ct=1.;
-    o.st=0.;
-    o.cp=cp0;
-    o.sp=sp0;
+    o.ct=1.;o.st=0.;
+    o.cp=cp0;o.sp=sp0;
     //o=EulerAngles(0.,phi0);
     return(0);
 }
@@ -175,40 +173,35 @@ int photon::initPass()
     r.z=0.;
     r.x=sampleL;
     r.y=0.;
-    o.cp=1.;
-    o.sp=0.;
-    o.ct=1.;
-    o.st=0.;
+    o.cp=1.;o.sp=0.;
+    o.ct=1.;o.st=0.;
     //o=EulerAngles(0.,phi0);
     return(0);
 }
 
 int photon::propagatePass(double theta0)
-// pass through
+        // pass through
 {
     r.addTo(log((RAND_MAX+1.0)/(random()+(long int) 1))*imuTotal*Coordinates(o)); //propagate according to exponential decay
     if (r.normxy() > R2) return(-1); // scattered out of solid sample
-    // if(random()>compton_ratio) return(0);// not compton scattering
-    scattered++;
-    o.addTo(EulerAngles(theta0));
+   // if(random()>compton_ratio) return(0);// not compton scattering
+            scattered++;
+        o.addTo(EulerAngles(theta0));
     return(1);
 }
 
 int photon::initRefBuried(double sphi0)
 {//Reflectivity, buried interface
-    scattered=0;
+        scattered=0;
     //r0= log((RAND_MAX+1.0)/(random()+(long int) 1))*imuTotal;
-    sp0=sphi0;
-    cp0=sqrt(1-sphi0*sphi0);
+sp0=sphi0;cp0=sqrt(1-sphi0*sphi0);
     //r.z=r0*sp0-sampleL*sp0/cp0;
     //if (r.z<0.) return(1);
     r.z=sampleL*sp0/cp0;
     r.x=sampleL;
-    o.cp=cp0;
-    o.sp=sp0;
+    o.cp=cp0;o.sp=sp0;
     r.y=0.;
-    o.ct=1.;
-    o.st=0.;
+    o.ct=1.;o.st=0.;
     //o=EulerAngles(0.,phi0);
     return(0);
 }
@@ -221,7 +214,7 @@ int photon::propagate(double theta0)
     }
     r0 -= muPEdr;
     if (r0<=muCdr) {// Compton scattered
-        scattered++;
+            scattered++;
         o.addTo(EulerAngles(theta0));
     }
     r.addTo(rstep*Coordinates(o));
@@ -229,21 +222,21 @@ int photon::propagate(double theta0)
     return(1);
 }
 int photon::propagateRef(double theta0)
-//
+        //
 {
     r.addTo(log((RAND_MAX+1.0)/(random()+(long int) 1))*imuTotal*Coordinates(o)); //propagate according to exponential decay
     if (r.normxy() > R2 || r.z<0) return(-1); // scattered out of solid sample
-    // if(random()>compton_ratio) return(0);// not compton scattering
-    scattered++;
-    o.addTo(EulerAngles(theta0));
+   // if(random()>compton_ratio) return(0);// not compton scattering
+            scattered++;
+        o.addTo(EulerAngles(theta0));
     return(1);
 }
 
 
 double E_to_l(double en0)
-//Energy to wavelength, KeV to angstrom
-{
-    double  e=1.602176e-19, h=6.626069e-34,  c=2.997925e8;
-    return h*c/e*1.e7/en0;
-}
-//
+        //Energy to wavelength, KeV to angstrom
+        {
+         double  e=1.602176e-19, h=6.626069e-34,  c=2.997925e8;
+          return h*c/e*1.e7/en0;
+          }
+        //
