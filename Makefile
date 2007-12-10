@@ -1,3 +1,4 @@
+PHONY: t1
 #general c++ compiling rule
 
 
@@ -22,4 +23,4 @@ $(EXECS):%:%.o ${OBJS} ${DEPS}
 		${CXX} -o $* $< ${OBJS} ${LDFLAGS}
 
 clean:
-		rm -f *.o ${EXECS}
+		rm -f *.o t1
