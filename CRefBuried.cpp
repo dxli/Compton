@@ -24,7 +24,7 @@ int main()
     string fn("si-Compton-RefBuried-new.txt");
     cout<<"Deleting output file "<<fn<<endl;
     unlink(fn.c_str());
-    int l2=5000000; // photons per loop
+    int l2=500000000; // photons per loop
     ofstream out1;
     double l3=0.;
     int ii=1;
@@ -57,7 +57,7 @@ int main()
         r_start=r_end;
             /*
             */
-        if(psum>100){
+        if(psum>1000){
             out1.open(fn.c_str(),fstream::app);
             double fac2=1./(s3v*s3h*l3);
             out1<<ii*dqz<<' '<<psum*fac2<<' '<<' '<<l3<<' '<<s3h<<' '<<s3v<<endl;
