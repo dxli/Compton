@@ -192,24 +192,11 @@ int photon::propagatePass(double theta0)
 
 int photon::initRefBuried(double sphi0)
 {//Reflectivity, buried interface
-<<<<<<< HEAD:block.cpp
-        scattered=0;
-    //r0= log((RAND_MAX+1.0)/(random()+(long int) 1))*imuTotal;
-sp0=sphi0;cp0=sqrt(1-sphi0*sphi0);
-    //r.z=r0*sp0-sampleL*sp0/cp0;
-    //if (r.z<0.) return(1);
-    r.z=sampleL*sp0/cp0;
-=======
     scattered=0;       
     o.sp=sphi0;
     o.cp=sqrt(1.-sphi0*sphi0);
     r.z=sampleL*sphi0/o.cp;
->>>>>>> test:block.cpp
     r.x=sampleL;
-<<<<<<< HEAD:block.cpp
-    o.cp=cp0;o.sp=sp0;
-=======
->>>>>>> test:block.cpp
     r.y=0.;
     o.ct=1.;o.st=0.;
     //o=EulerAngles(0.,phi0);
@@ -242,20 +229,6 @@ int photon::propagate(double theta0)
     if (r.normxy() > R2) return(-1);
     return(1);
 }
-<<<<<<< HEAD:block.cpp
-int photon::propagateRef(double theta0)
-        //
-{
-    r.addTo(log((RAND_MAX+1.0)/(random()+(long int) 1))*imuTotal*Coordinates(o)); //propagate according to exponential decay
-    if (r.normxy() > R2 || r.z<0) return(-1); // scattered out of solid sample
-   // if(random()>compton_ratio) return(0);// not compton scattering
-            scattered++;
-        o.addTo(EulerAngles(theta0));
-    return(1);
-}
-
-=======
->>>>>>> test:block.cpp
 
 double E_to_l(double en0)
         //Energy to wavelength, KeV to angstrom
