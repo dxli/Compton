@@ -1,8 +1,7 @@
-PHONY: t1
 #general c++ compiling rule
 
 
-EXECS=CPassThrough
+EXECS=CPassThrough CRefBuried
 
 all : ${EXECS}
 .PHONY : all
@@ -23,4 +22,4 @@ $(EXECS):%:%.o ${OBJS} ${DEPS}
 		${CXX} -o $* $< ${OBJS} ${LDFLAGS}
 
 clean:
-		rm -f *.o t1
+		rm -f *.o ${EXECS}
