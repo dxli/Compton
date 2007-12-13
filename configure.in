@@ -3,11 +3,14 @@
 
 AC_PREREQ(2.61)
 AC_INIT(FULL-PACKAGE-NAME, VERSION, BUG-REPORT-ADDRESS)
+AC_PROG_CXX
+AM_INIT_AUTOMAKE
+AUTOMAKE_OPTIONS = foreign -Wall
+#AM_CXXFLAGS = $(INTI_CFLAGS)
 AC_CONFIG_SRCDIR([CPassThrough.cpp])
 AC_CONFIG_HEADER([config.h])
 
 # Checks for programs.
-AC_PROG_CXX
 AC_PROG_CC
 
 # Checks for libraries.
@@ -19,9 +22,10 @@ AC_CHECK_HEADERS([sys/time.h])
 AC_HEADER_TIME
 
 # Checks for library functions.
-AC_SEARCH_LIBS([pow,sqrt], [m])
-AC_SEARCH_LIBS([gsl_integration_qags], [gsl])
-AC_CHECK_FUNCS([gettimeofday pow sqrt])
+AC_HAVE_LIBRARY(gsl,[],[echo "\tgsl package not found"])
+AC_HAVE_LIBRARY(gslcblas,[],[echo "\tlibgslcblas not found"])
+AC_CHECK_FUNCS([gettimeofday ])
 
+AC_HAVE_LIBRARY(mysqlpp,[],[echo "\tmysql++ package not found"])
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
