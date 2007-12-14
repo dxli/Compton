@@ -24,7 +24,7 @@ int main()
     string fn("si-CPTBrutal.txt");
     cout<<"Deleting output file "<<fn<<endl;
     unlink(fn.c_str());
-    int l1=100,l2=5000000;
+    int l1=100,l2=50000000;
     ofstream out1;
     double l3=0.;
     int ii=1;
