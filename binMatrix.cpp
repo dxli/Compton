@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
         vector<float> x,y;
         x.resize( (unsigned int) ( n1 -0.5));
         y.resize( (unsigned int) ( n1 +0.5));
-        cout<<x.size()<<endl;
+        cerr<<x.size()<<endl;
         if(in1.fail()){
                 cerr<<"incomplete data file\n";
                 return 0;
