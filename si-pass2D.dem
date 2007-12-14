@@ -1,0 +1,4 @@
+set mapping spheric
+set angle radian
+splot "si-Compton-pass2D.dat" matrix binary with pm3d
+
