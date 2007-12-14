@@ -21,9 +21,9 @@ int main()
     int phi_steps=(int)(M_PI/2/s3v+0.5);
     double itheta_steps=theta_steps/M_PI;
     double iphi_steps=phi_steps/(M_PI/2);
-    ScatteredI.resize(theta_steps+2);
+    ScatteredI.resize(phi_steps+2);
     for (unsigned int i=0;i<ScatteredI.size();i++) { //initialize counts to 0
-            ScatteredI.at(i).resize(phi_steps+2);
+            ScatteredI.at(i).resize(theta_steps+2);
         for (unsigned int j=0;j<ScatteredI.at(i).size();j++) 
             ScatteredI.at(i).at(j)=0.;
     }
@@ -40,7 +40,7 @@ int main()
         }
         //
     int j;
-    string fn("si-Compton-pass-new.txt");
+    string fn("si-Compton-pass2D.dat");
     cout<<"Deleting output file "<<fn<<endl;
     unlink(fn.c_str());
     int l1=100,l2=500000000;
@@ -87,7 +87,7 @@ int main()
         //write matrix binary for gnuplot
         vector<float> fbuffer;
         fbuffer.resize(theta_steps);
-        for (unsigned int i2=0;i2<theta_steps;i2++){ 
+        for (unsigned int i2=0;i2<=phi_steps;i2++){ 
                 if(i2) {
                         out1.write((char *) (&grid_y[i2-1]),sizeof(float));
         vector<float>::iterator pf0=fbuffer.begin(),pd0=ScatteredI.at(i2-1).begin();
