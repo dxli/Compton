@@ -71,7 +71,7 @@ int main()
             if (j==-1 ) {//scattered out of sample
                 //    cout<<i<<' '<<p0.o.theta<<endl;
                    // cout<<i<<' '<<tP0.theta()<<' '<<p0.o.st<<' '<<p0.o.sp<<endl;
-                if (p0.scattered && fabs(p0.o.sp)<s3v) dist_theta.at((unsigned int) (p0.o.get_theta()*itheta_steps+0.5)) += pow(compton_ratio_factor,(int) p0.scattered);
+                if (p0.scattered && fabs(p0.o.sp)<s3v) dist_theta.at((unsigned int) (p0.o.get_theta()*itheta_steps)) += pow(compton_ratio_factor,(int) p0.scattered);
             }
         }
         getrusage(RUSAGE_SELF, &r_end); //get running time
