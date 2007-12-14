@@ -133,9 +133,6 @@ photon::photon()
     imuTotal=1./muTotal;
     sampleL=-2.54*0.25;
     R2= (1+1e-8)*sampleL* sampleL;
-    rstep=sampleL/cellDiv;
-    muPEdr=muPE*rstep;
-    muCdr=muC*rstep;
 }
 
 int photon::init()
