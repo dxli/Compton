@@ -31,7 +31,7 @@ int main()
         vector<float> grid_x,grid_y;
         grid_x.resize(theta_steps+1);
         grid_y.resize(phi_steps);
-        grix_x[0]=theta_steps;
+        grid_x[0]=theta_steps;
         for(unsigned int i=1;i<grid_x.size();i++){
                 grid_x.at(i)=(i+0.5)/itheta_steps;
         }
@@ -78,7 +78,7 @@ int main()
         }
         getrusage(RUSAGE_SELF, &r_end); //get running time
         l3+=l2;
-        cout<<ii<<' '<<ScatteredI.at(ii)<<' '<<l3<<' '<<l2/(r_end.ru_utime.tv_sec -r_start.ru_utime.tv_sec+ double(1e-6)*(r_end.ru_utime.tv_usec -r_start.ru_utime.tv_usec ) )<<" P/s\n";
+        cout<<ii<<' '<<ScatteredI.at(phi_steps>>1).at(theta_steps>>1)<<' '<<l3<<' '<<l2/(r_end.ru_utime.tv_sec -r_start.ru_utime.tv_sec+ double(1e-6)*(r_end.ru_utime.tv_usec -r_start.ru_utime.tv_usec ) )<<" P/s\n";
         r_start=r_end;
         /*
         */
@@ -89,7 +89,7 @@ int main()
         fbuffer.resize(theta_steps);
         for (unsigned int i2=0;i2<theta_steps;i2++){ 
                 if(i2) {
-                        out1.write((char *) (grid_y.at(i2-1)),sizeof(float));
+                        out1.write((char *) (&grid_y[i2-1]),sizeof(float));
         vector<float>::iterator pf0=fbuffer.begin(),pd0=ScatteredI.at(i2-1).begin();
         while(pf0 != fbuffer.end()) *pf0++ = fac2* *pd0++;
                         out1.write((char *) (&fbuffer[0]),fbuffer.size()*sizeof(float));
