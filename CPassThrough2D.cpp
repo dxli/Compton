@@ -65,15 +65,10 @@ int main()
         //double t1= -ii*fac1;
 //#pragma omp parallel for private( j,t0 ) reduction(+:sum) schedule(static)
         for (int i=0;i<l2;i++){
-            //if (p0.initRefBuried(t1)) continue;
             p0.initPass();
-
             while ((j=p0.propagatePass(tP0.theta()))==1);
-            // if( i && ((i>>18 ) <<18) == i) cout<<"i="<<i<<endl;
             if (j==-1 ) {//scattered out of sample
-                //    cout<<i<<' '<<p0.o.theta<<endl;
-                // cout<<i<<' '<<tP0.theta()<<' '<<p0.o.st<<' '<<p0.o.sp<<endl;
-                if (p0.scattered ) ScatteredI.at((unsigned int) (fabs(p0.o.get_phi())*iphi_steps+0.5)).at((unsigned int) (p0.o.get_theta()*itheta_steps+0.5)) += pow(compton_ratio_factor,(int) p0.scattered);
+                if (p0.scattered ) ScatteredI.at((unsigned int) (fabs(p0.o.get_phi())*iphi_steps)).at((unsigned int) (p0.o.get_theta()*itheta_steps)) += pow(compton_ratio_factor,(int) p0.scattered);
             }
         }
         getrusage(RUSAGE_SELF, &r_end); //get running time
