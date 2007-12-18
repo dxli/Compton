@@ -11,7 +11,6 @@ AC_CONFIG_SRCDIR([CPassThrough.cpp])
 AC_CONFIG_HEADER([config.h])
 
 # Checks for programs.
-AC_PROG_CC
 
 # Checks for libraries.
 

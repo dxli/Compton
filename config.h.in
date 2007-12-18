@@ -1,4 +1,4 @@
-/* config.h.in.  Generated from configure.in by autoheader.  */
+/* config.h.in.  Generated from configure.ac by autoheader.  */
 
 /* Define to 1 if you have the `gettimeofday' function. */
 #undef HAVE_GETTIMEOFDAY
@@ -11,9 +11,6 @@
 
 /* Define to 1 if you have the `gslcblas' library (-lgslcblas). */
 #undef HAVE_LIBGSLCBLAS
-
-/* Define to 1 if you have the `mysqlpp' library (-lmysqlpp). */
-#undef HAVE_LIBMYSQLPP
 
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H

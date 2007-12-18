@@ -3,5 +3,4 @@
 aclocal
 autoconf
 automake --add-missing --foreign
-./configure
-make
+echo "to build, run ./configure && make"

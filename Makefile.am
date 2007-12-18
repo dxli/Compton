@@ -1,8 +1,15 @@
 #general c++ compiling rule
+myldadd = compton.o block.o randomInit.o
 AM_CPPFLAGS = -fomit-frame-pointer -fexpensive-optimizations
+#AM_LDFLAGS = -Wl,-O1 -Wl,--as-needed
 bin_PROGRAMS = CPassThrough CPassThrough2D CRefBuried CPTBrutal binMatrix
 CRefBuried_SOURCES = CRefBuried.cpp
+CRefBuried_LDADD =  $(myldadd)
+CPassThrough_SOURCES = CPassThrough.cpp
+CPassThrough_LDADD = $(myldadd)
+CPassThrough2D_SOURCES = CPassThrough2D.cpp
+CPassThrough2D_LDADD = $(myldadd)
 CPTBrutal_SOURCES = CPTBrutal.cpp
 CPTBrutal_LDADD =  compton.o blockBrutal.o randomInit.o
-LDADD = compton.o block.o randomInit.o
+binMatrix_SOURCES = binMatrix.cpp
 include_HEADERS=compton.h block.h
