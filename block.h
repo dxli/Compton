@@ -45,6 +45,7 @@ public:
     Coordinates r;
     EulerAngles o;
     photon();
+    photon(double);
     int init();
     int propagate(double);
     int initRef(double);

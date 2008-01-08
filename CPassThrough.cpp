@@ -2,6 +2,7 @@
 //pass through geometry, beam pass through Si crystal
 #include<iostream>
 #include<fstream>
+#include<sstream>
 #include <vector>
 #include <grace_np.h>
 #include <sys/time.h>
@@ -11,7 +12,7 @@
 #include "randomInit.h" //init random number generator
 using namespace std;
 
-int main()
+int main(int argc, char *argv[])
 {
             double s3h=20./640.,s3v=2./640.;// slit size
             vector<double> dist_theta;
@@ -38,7 +39,15 @@ int main()
     }
 
     */
-    string fn("si-Compton-pass-new.txt");
+    double diameter=0.;
+    if(argc>=2) { // read sample block diameter from command line
+        istringstream is0(argv[1]);
+        is0>>diameter;
+        if( !( diameter>=0.01 && diameter < 1000.)) diameter=0.25;
+    } else diameter=0.25; // all units in inches
+    ostringstream os0;
+    os0<<"si-Compton-pass-"<<diameter<<".txt";
+    string fn(os0.str().c_str());
     cout<<"Deleting output file "<<fn<<endl;
     unlink(fn.c_str());
     int l1=100,l2=500000000;
@@ -54,7 +63,7 @@ int main()
      //   double pk0=2*M_PI/pLambda;
     //double fac1=1./(2.*pk0*l1); // q_z range up to 1 angstrom^-1
             thetaDistribution tP0(pEn);
-            photon p0;
+            photon p0(diameter);
 
     struct rusage r_start,r_end;
     getrusage(RUSAGE_SELF, &r_start);
