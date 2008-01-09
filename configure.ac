@@ -22,6 +22,7 @@ AC_HEADER_TIME
 
 # Checks for library functions.
 #AC_HAVE_LIBRARY(gsl,[],[echo "\tgsl package not found"])
+AC_HAVE_LIBRARY(grace_np,[],[echo "libgrace_np not found"])
 AC_HAVE_LIBRARY(gslcblas,[],[echo "libgslcblas not found"])
 AC_CHECK_LIB([gsl],[gsl_integration_qags],[],[echo "couldn't -lgsl"])
 AC_CHECK_FUNCS([gettimeofday ])
