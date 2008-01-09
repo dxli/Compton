@@ -71,7 +71,7 @@ int main()
             out1<<x0<<' '<<dist_theta.at(i2)*fac2<<' '<<dist_theta.at(i2)<<' '<<l3<<endl;
             x0+=dx;
             }
-            out1<<dist_theta.size()/itheta_steps<<' '<<dist_theta.at(i2)*fac2<<' '<<s3v<<' '<<s3h<<endl;
+            out1<<dist_theta.size()/itheta_steps<<' '<<dist_theta.at((dist_theta.size()-1)>>1)*fac2<<' '<<s3v<<' '<<s3h<<endl;
             out1.close();
             ii++;
     }
