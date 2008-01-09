@@ -59,7 +59,7 @@ int main()
         }
         getrusage(RUSAGE_SELF, &r_end); //get running time
         l3+=l2;
-        cout<<ii<<' '<<dist_theta.at(ii)<<' '<<l3<<' '<<l2/(r_end.ru_utime.tv_sec -r_start.ru_utime.tv_sec+ double(1e-6)*(r_end.ru_utime.tv_usec -r_start.ru_utime.tv_usec ) )<<" P/s\n";
+        cout<<ii<<' '<<dist_theta.at((dist_theta.size()-1)>>1)<<' '<<l3<<' '<<l2/(r_end.ru_utime.tv_sec -r_start.ru_utime.tv_sec+ double(1e-6)*(r_end.ru_utime.tv_usec -r_start.ru_utime.tv_usec ) )<<" P/s\n";
         r_start=r_end;
             /*
             */
@@ -68,10 +68,10 @@ int main()
             double dx=1./itheta_steps;
             double x0=0.5*dx;
             for(unsigned int i2=0;x0<M_PI;i2++){
-            out1<<x0<<' '<<dist_theta.at(i2)*fac2<<' '<<dist_theta.at(ii)<<' '<<l3<<endl;
+            out1<<x0<<' '<<dist_theta.at(i2)*fac2<<' '<<dist_theta.at(i2)<<' '<<l3<<endl;
             x0+=dx;
             }
-            out1<<dist_theta.size()/itheta_steps<<' '<<dist_theta.at(ii)*fac2<<' '<<s3v<<' '<<s3h<<endl;
+            out1<<dist_theta.size()/itheta_steps<<' '<<dist_theta.at(i2)*fac2<<' '<<s3v<<' '<<s3h<<endl;
             out1.close();
             ii++;
     }
