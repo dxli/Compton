@@ -13,4 +13,5 @@ CPTBrutal_SOURCES = CPTBrutal.cpp
 CPTBrutal_LDADD =  compton.o blockBrutal.o randomInit.o
 binMatrix_SOURCES = binMatrix.cpp
 plotCPT_SOURCES = plotCPT.cpp
+plotCPT_LDADD = mcd.o
 include_HEADERS=compton.h block.h
