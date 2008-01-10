@@ -6,19 +6,17 @@
 #include<iterator>
 #include<vector>
 #include<algorithm>
-#include<stdlib.h>
-#define _GNU_SOURCE
-#include<stdio.h>
-#include<math.h>
+#include<cstdlib>
+#include<cmath>
 #include <grace_np.h>
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_spline.h>
+#include "mcd.h"
 
 
 
 #define y_max 2e-4
 
-using namespace std;
 
 #ifndef EXIT_SUCCESS
 #  define EXIT_SUCCESS 0
@@ -28,6 +26,7 @@ using namespace std;
 #  define EXIT_FAILURE -1
 #endif
 
+using namespace std;
 void my_error_function(const char *msg)
 {
     fprintf(stderr, "library message: \"%s\"\n", msg);
@@ -53,8 +52,18 @@ char *linebuf=NULL;
 vector<string> fns;
 while( getline( &linebuf,&buflength,f1)){ // read in filenames
         if(feof(f1)) break;
-        cout<<linebuf<<endl;
-        fns.push_back(string(linebuf));
+        string s0(linebuf);
+        /*
+        string::size_type loc=s0.rfind(".txt",s0.size());
+        cout<<loc<<endl;
+        if(loc != string::npos) { // get rid of the EndOfLine byte
+                s0.erase(loc+4,string::npos);
+        }
+        */
+        if(s0.size()<2) continue;
+        s0.resize(s0.size()-1);
+        cout<<s0<<endl;
+        fns.push_back(s0);
 }
 if(fns.size()<1) {
         cout<<"No file of "<<fn0<<" found\n";
@@ -64,8 +73,7 @@ fclose(f1);
 std::sort(fns.begin(),fns.end());
 // plotting
 a0=0.;i=0;
-if (GraceOpenVA("xmgrace", 2048, "-nosafe", "-noask","-nosigcatch","-geometry","1400x980+0+0", NULL)==-1){
-        fprintf(stderr, "Can't run Grace. \n");
+if (GraceOpenVA("xmgrace", 2048, "-nosafe", "-noask","-nosigcatch","-geometry","1400x980+0+0", NULL)==-1){ fprintf(stderr, "Can't run Grace. \n");
         exit(EXIT_FAILURE);
     }
 
@@ -91,14 +99,14 @@ GracePrintf("s%d line linestyle 1",i);
 //GracePrintf("s%d legend \"S(q)\"",i);
 
         ifstream in1(fns.at(i).c_str());
+
         if (! in1.is_open()) {
                 cout<<"Can not open "<<fns.at(i)<<endl;
                 continue;
         }
         vector<vector<double> > xe;
         string line0;
-        while( ! in1.eof()){
-                std::getline(in1,line0);
+        while(std::getline(in1,line0)){
                 istringstream iss (line0);
                 vector<double> va;
                 std::copy(istream_iterator<double>(iss), istream_iterator<double>(), back_inserter(va));
@@ -109,10 +117,39 @@ GracePrintf("s%d line linestyle 1",i);
         for(int i1=0;i1<xe.size();i1++){
          GracePrintf("s%d point %g,%g",i,xe.at(i1).at(0),xe.at(i1).at(1));
         }
-cout<<"i= "<<i<<endl;
-i++;
 }
 
+
+GracePrintf("autoscale");
+GracePrintf("world xmax %g",M_PI);
+// place x-axis ticklabels
+GracePrintf("xaxis  tick spec type both\n");
+GracePrintf("xaxis  tick spec 120\n");
+{
+        int i0=0,j0=0,div=12;
+
+        double xt=0,dxt=M_PI/div;
+        do{
+                if((i0>>1)<<1 == i0){
+                       GracePrintf("xaxis  tick major %d, %g\n",i0,xt);
+                        int k0=mcd(i0,div);
+                        switch(k0) {
+                                case 0:
+                       GracePrintf("xaxis  ticklabel %d, \"0\"",i0);
+                       break;
+                                default:
+                                if( k0==div)
+                       GracePrintf("xaxis  ticklabel %d, \"\\f{Symbol}p\"",i0);
+                                else
+                       GracePrintf("xaxis  ticklabel %d, \"%d/%d\\f{Symbol}p\"",i0,i0/k0,div/k0);
+                        } 
+        } else {
+                       GracePrintf("xaxis  tick minor %d, %g\n",i0,xt);
+                        }
+                        xt+=dxt;
+                        i0++;
+}while(xt<0.999*M_PI);
+}
 
 GracePrintf("legend 0.75,0.85");
 GracePrintf("xaxis label \"\\+\\+2\\f{Symbol}q\"");

@@ -21,24 +21,27 @@ int main()
     int phi_steps=(int)(M_PI/2/s3v+0.5);
     double itheta_steps=theta_steps/M_PI;
     double iphi_steps=phi_steps/(M_PI/2);
+    char randomBuffer[257];
+    randomInit(randomBuffer); //init random number generator
+
     ScatteredI.resize(phi_steps+2);
     for (unsigned int i=0;i<ScatteredI.size();i++) { //initialize counts to 0
-            ScatteredI.at(i).resize(theta_steps+2);
-        for (unsigned int j=0;j<ScatteredI.at(i).size();j++) 
+        ScatteredI.at(i).resize(theta_steps+2);
+        for (unsigned int j=0;j<ScatteredI.at(i).size();j++)
             ScatteredI.at(i).at(j)=0.;
     }
     // x and y grid, for theta and phi, respectively
-        vector<float> grid_x,grid_y;
-        grid_x.resize(theta_steps+1);
-        grid_y.resize(phi_steps);
-        grid_x[0]=theta_steps;
-        for(unsigned int i=1;i<grid_x.size();i++){
-                grid_x.at(i)=(i+0.5)/itheta_steps;
-        }
-        for(unsigned int i=0;i<grid_y.size();i++){
-                grid_y.at(i)=(i+0.5)/iphi_steps;
-        }
-        //
+    vector<float> grid_x,grid_y;
+    grid_x.resize(theta_steps+1);
+    grid_y.resize(phi_steps);
+    grid_x[0]=theta_steps;
+    for (unsigned int i=1;i<grid_x.size();i++){
+        grid_x.at(i)=(i+0.5)/itheta_steps;
+    }
+    for (unsigned int i=0;i<grid_y.size();i++){
+        grid_y.at(i)=(i+0.5)/iphi_steps;
+    }
+    //
     int j;
     string fn("si-Compton-pass2D.dat");
     cout<<"Deleting output file "<<fn<<endl;
@@ -82,15 +85,15 @@ int main()
         //write matrix binary for gnuplot
         vector<float> fbuffer;
         fbuffer.resize(theta_steps);
-        for (unsigned int i2=0;i2<=phi_steps;i2++){ 
-                if(i2) {
-                        out1.write((char *) (&grid_y[i2-1]),sizeof(float));
-        vector<float>::iterator pf0=fbuffer.begin(),pd0=ScatteredI.at(i2-1).begin();
-        while(pf0 != fbuffer.end()) *pf0++ = fac2* *pd0++;
-                        out1.write((char *) (&fbuffer[0]),fbuffer.size()*sizeof(float));
-                }else{
-                        out1.write((char *) (&grid_x[0]),grid_x.size()*sizeof(float));
-                }
+        for (unsigned int i2=0;i2<=phi_steps;i2++){
+            if (i2) {
+                out1.write((char *) (&grid_y[i2-1]),sizeof(float));
+                vector<float>::iterator pf0=fbuffer.begin(),pd0=ScatteredI.at(i2-1).begin();
+                while (pf0 != fbuffer.end()) *pf0++ = fac2* *pd0++;
+                out1.write((char *) (&fbuffer[0]),fbuffer.size()*sizeof(float));
+            }else{
+                out1.write((char *) (&grid_x[0]),grid_x.size()*sizeof(float));
+            }
         }
         out1.close();
         ii++;
