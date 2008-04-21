@@ -53,5 +53,6 @@ public:
     int initGixos();
     int propagateRef(double);
     int propagatePass(double);
+    int propagateGixos(double);
     int initPass();
 };

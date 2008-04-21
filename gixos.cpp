@@ -16,8 +16,8 @@ int main(int argc, char *argv[])
 {
     char randomBuffer[257];
     randomInit(randomBuffer); //init random number generator
-    double pixelHeight=0.172/900.// angular now
-            ,s5h=2/900.;// slit size
+    double pixelHeight=20./900.// angular now
+            ,s5h=20/900.;// slit size
     vector<double> dist_theta;
     int theta_steps=(int)(1/pixelHeight+0.5);
     double itheta_steps=theta_steps/(1.);
@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
             if (j==-1 ) {//scattered out of sample
                 //    cout<<i<<' '<<p0.o.theta<<endl;
                 // cout<<i<<' '<<tP0.theta()<<' '<<p0.o.st<<' '<<p0.o.sp<<endl;
-                if (p0.scattered && p0.o.sp>=0. && fabs(p0.o.get_theta()-0.3*M_PI/180.)<s5h) dist_theta.at((unsigned int) (p0.o.sp*itheta_steps)) += pow(compton_ratio_factor,(int) p0.scattered);
+                if (p0.scattered && p0.o.sp>=0. && fabs(p0.o.st)<s5h) dist_theta.at((unsigned int) (p0.o.sp*itheta_steps)) += pow(compton_ratio_factor,(int) p0.scattered);
             }
         }
         getrusage(RUSAGE_SELF, &r_end); //get running time
@@ -96,10 +96,11 @@ int main(int argc, char *argv[])
         double dx=1./itheta_steps;
         double x0=0.5*dx;
         for (unsigned int i2=0;x0<1.;i2++){
-            out1<<x0<<' '<<dist_theta.at(i2)*fac2<<' '<<dist_theta.at(i2)<<' '<<l3<<endl;
+            out1<<x0*(2.*M_PI/0.4132)<<' '<<dist_theta.at(i2)*fac2<<' '<<dist_theta.at(i2)<<' '<<l3<<endl;
             x0+=dx;
         }
-        out1<<dist_theta.size()/itheta_steps<<' '<<dist_theta.at((dist_theta.size()-1)>>1)*fac2<<' '<<s5h<<' '<<pixelHeight<<endl;
+        //out1<<dist_theta.size()/itheta_steps<<' '<<dist_theta.at((dist_theta.size()-1)>>1)*fac2<<' '<<s5h<<' '<<pixelHeight<<endl;
+        //cout<<1./itheta_steps<<' '<<dist_theta.at((dist_theta.size()-1)>>1)*fac2<<"s5h(angular)= "<<s5h<<"pixelSize(angular)="<<pixelHeight<<endl;
         out1.close();
         ii++;
     }
