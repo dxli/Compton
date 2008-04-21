@@ -50,6 +50,7 @@ public:
     int propagate(double);
     int initRef(double);
     int initRefBuried(double);
+    int initGixos();
     int propagateRef(double);
     int propagatePass(double);
     int initPass();

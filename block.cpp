@@ -187,6 +187,18 @@ int photon::initPass()
     return(0);
 }
 
+int photon::initGixos()
+{//Pass through
+    scattered=0;//corritical angle 0.06903 degree, at Si/Ga interface 0.4132 angstrom
+    r.z=0.06*M_PI/180*sampleL;
+    r.x=sampleL;
+    r.y=0.;
+    o.cp=1.;o.sp=-0.00105;
+    o.ct=1.;o.st=0.;
+    //o=EulerAngles(0.,phi0);
+    return(0);
+}
+
 int photon::propagatePass(double theta0)
         // pass through
 {

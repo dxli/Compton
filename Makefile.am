@@ -2,7 +2,7 @@
 myldadd = compton.o block.o randomInit.o
 AM_CPPFLAGS = -fomit-frame-pointer -fexpensive-optimizations
 #AM_LDFLAGS = -Wl,-O1 -Wl,--as-needed
-bin_PROGRAMS = CPassThrough CPassThrough2D CRefBuried CPTBrutal binMatrix plotCPT CRefBackground
+bin_PROGRAMS = CPassThrough CPassThrough2D CRefBuried CPTBrutal binMatrix plotCPT CRefBackground gixos
 CRefBuried_SOURCES = CRefBuried.cpp
 CRefBuried_LDADD =  $(myldadd)
 CPassThrough_SOURCES = CPassThrough.cpp
@@ -11,6 +11,8 @@ CPassThrough2D_SOURCES = CPassThrough2D.cpp
 CPassThrough2D_LDADD = $(myldadd)
 CRefBackground_SOURCES = CRefBackground.cpp
 CRefBackground_LDADD = $(myldadd)
+gixos_SOURCES = gixos.cpp
+gixos_LDADD = $(myldadd)
 CPTBrutal_SOURCES = CPTBrutal.cpp
 CPTBrutal_LDADD =  compton.o blockBrutal.o randomInit.o
 binMatrix_SOURCES = binMatrix.cpp
