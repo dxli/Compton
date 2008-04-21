@@ -19,8 +19,8 @@ int main(int argc, char *argv[])
     double pixelHeight=0.172/900.// angular now
             ,s5h=2/900.;// slit size
     vector<double> dist_theta;
-    int theta_steps=(int)(M_PI/2/pixelHeight+0.5);
-    double itheta_steps=theta_steps/(M_PI/2);
+    int theta_steps=(int)(1/pixelHeight+0.5);
+    double itheta_steps=theta_steps/(1.);
     dist_theta.resize(theta_steps+2);
     for (unsigned int i=0;i<dist_theta.size();i++) dist_theta.at(i)=0.;
     int j;
@@ -95,7 +95,7 @@ int main(int argc, char *argv[])
         double fac2=1./(s5h*pixelHeight*l3);
         double dx=1./itheta_steps;
         double x0=0.5*dx;
-        for (unsigned int i2=0;x0<M_PI;i2++){
+        for (unsigned int i2=0;x0<1.;i2++){
             out1<<x0<<' '<<dist_theta.at(i2)*fac2<<' '<<dist_theta.at(i2)<<' '<<l3<<endl;
             x0+=dx;
         }
