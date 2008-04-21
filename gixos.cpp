@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
             //if (p0.initRefBuried(t1)) continue;
             p0.initGixos();
 
-            while ((j=p0.propagateRef(tP0.theta()))==1);
+            while ((j=p0.propagateGixos(tP0.theta()))==1);
             // if( i && ((i>>18 ) <<18) == i) cout<<"i="<<i<<endl;
             if (j==-1 ) {//scattered out of sample
                 //    cout<<i<<' '<<p0.o.theta<<endl;
