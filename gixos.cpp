@@ -77,8 +77,8 @@ int main(int argc, char *argv[])
             //if (p0.initRefBuried(t1)) continue;
             p0.initGixos();
 
-            while ((j=p0.propagateGixos(tP0.theta()))==1){
-                    /*
+            while ((j=p0.propagateGixos(tP0.theta()))==1);
+                    /*{
             if(p0.scattered>1000){
                     cout<<p0.r.x<<' '<<p0.r.y<<' '<<p0.r.z<<endl;
                     cout<<p0.o.get_theta()<<' '<<p0.o.get_phi()<<endl;
