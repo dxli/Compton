@@ -228,11 +228,11 @@ int photon::propagateGixos(double theta0)
 {
         double z0=r.z;
     r.addTo(log((RAND_MAX+1.0)/(random()+(long int) 1))*imuTotal*Coordinates(o)); //propagate according to exponential decay
-    if (r.normxy() > R2 ) return(-1); // scattered out of solid sample
     if (r.z<0.) {//gixos is at total reflection
             r.z = fabs(r.z);
             o.sp = fabs(o.sp); 
     }
+    if (r.normxy() > R2 ) return(-1); // scattered out of solid sample
     // if(random()>compton_ratio) return(0);// not compton scattering
     scattered++;
     o.addTo(EulerAngles(theta0));
