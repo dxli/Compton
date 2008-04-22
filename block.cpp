@@ -124,6 +124,12 @@ ostream & operator << ( ostream& os,Coordinates b)
         return os;
 }
 
+ostream & operator << ( ostream& os,EulerAngles o)
+{
+        os<<o.get_theta()<<' '<<o.get_phi();
+        return os;
+}
+
 photon::photon()
 {
     muPE= 1.16 * 2.33; // in cm^-1, PhotoElectric
@@ -190,10 +196,10 @@ int photon::initPass()
 int photon::initGixos()
 {//Pass through
     scattered=0;//corritical angle 0.06903 degree, at Si/Ga interface 0.4132 angstrom
-    r.z=0.06*M_PI/180*sampleL;
+    r.z=-0.06*M_PI/180*sampleL;
     r.x=sampleL;
     r.y=0.;
-    o.cp=1.;o.sp=-0.00105;
+    o.cp=sqrt(1.-0.00105*0.00105);o.sp=-0.00105;
     o.ct=1.;o.st=0.;
     //o=EulerAngles(0.,phi0);
     return(0);
@@ -226,12 +232,13 @@ int photon::initRefBuried(double sphi0)
 int photon::propagateGixos(double theta0)
 // scattering process for reflectivity geometry
 {
-        double z0=r.z;
-    r.addTo(log((RAND_MAX+1.0)/(random()+(long int) 1))*imuTotal*Coordinates(o)); //propagate according to exponential decay
+    r.addTo(log((RAND_MAX+1.0)/(random()+0.01))*imuTotal*Coordinates(o)); //propagate according to exponential decay
+     //   if(!( fabs(o.sp)<fabs(o.sp) +1.)) cout<<"before\n";
     if (r.z<0.) {//gixos is at total reflection
             r.z = fabs(r.z);
             o.sp = fabs(o.sp); 
     }
+        if(!( fabs(o.sp)<fabs(o.sp) +1.)) cout<<"after\n";
     if (r.normxy() > R2 ) return(-1); // scattered out of solid sample
     // if(random()>compton_ratio) return(0);// not compton scattering
     scattered++;

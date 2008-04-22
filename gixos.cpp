@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     vector<double> dist_theta;
     int theta_steps=(int)(1/pixelHeight+0.5);
     double itheta_steps=theta_steps/(1.);
-    dist_theta.resize(theta_steps+2);
+    dist_theta.resize(theta_steps+200);
     for (unsigned int i=0;i<dist_theta.size();i++) dist_theta.at(i)=0.;
     int j;
     /*
@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
     string fn(os0.str().c_str());
     cout<<"Deleting output file "<<fn<<endl;
     unlink(fn.c_str());
-    int l1=100,l2=500000000;
+    int l1=100,l2=5000000;
     ofstream out1;
     double l3=0.;
     int ii=1;
@@ -77,17 +77,26 @@ int main(int argc, char *argv[])
             //if (p0.initRefBuried(t1)) continue;
             p0.initGixos();
 
-            while ((j=p0.propagateGixos(tP0.theta()))==1);
+            while ((j=p0.propagateGixos(tP0.theta()))==1){
+                    /*
+            if(p0.scattered>1000){
+                    cout<<p0.r.x<<' '<<p0.r.y<<' '<<p0.r.z<<endl;
+                    cout<<p0.o.get_theta()<<' '<<p0.o.get_phi()<<endl;
+                    break;
+            }
+            };
+            */
             // if( i && ((i>>18 ) <<18) == i) cout<<"i="<<i<<endl;
             if (j==-1 ) {//scattered out of sample
                 //    cout<<i<<' '<<p0.o.theta<<endl;
                 // cout<<i<<' '<<tP0.theta()<<' '<<p0.o.st<<' '<<p0.o.sp<<endl;
                 if (p0.scattered && p0.o.sp>=0. && fabs(p0.o.st)<s5h) dist_theta.at((unsigned int) (p0.o.sp*itheta_steps)) += pow(compton_ratio_factor,(int) p0.scattered);
             }
+            //if( (i>>14)<<14 == i) cout<<i<<endl;
         }
         getrusage(RUSAGE_SELF, &r_end); //get running time
         l3+=l2;
-        cout<<ii<<' '<<dist_theta.at((dist_theta.size()-1)>>1)<<' '<<l3<<' '<<l2/(r_end.ru_utime.tv_sec -r_start.ru_utime.tv_sec+ double(1e-6)*(r_end.ru_utime.tv_usec -r_start.ru_utime.tv_usec ) )<<" P/s\n";
+        cout<<ii<<' '<<dist_theta.at(1)<<' '<<l3<<' '<<l2/(r_end.ru_utime.tv_sec -r_start.ru_utime.tv_sec+ double(1e-6)*(r_end.ru_utime.tv_usec -r_start.ru_utime.tv_usec ) )<<" P/s\n";
         r_start=r_end;
         /*
         */
@@ -96,7 +105,7 @@ int main(int argc, char *argv[])
         double dx=1./itheta_steps;
         double x0=0.5*dx;
         for (unsigned int i2=0;x0<1.;i2++){
-            out1<<x0*(2.*M_PI/0.4132)<<' '<<dist_theta.at(i2)*fac2<<' '<<dist_theta.at(i2)<<' '<<l3<<endl;
+            out1<<x0*(2.*M_PI/0.4132)<<' '<<dist_theta.at(i2)*fac2/(1-x0*x0)<<' '<<dist_theta.at(i2)<<' '<<l3<<endl;
             x0+=dx;
         }
         //out1<<dist_theta.size()/itheta_steps<<' '<<dist_theta.at((dist_theta.size()-1)>>1)*fac2<<' '<<s5h<<' '<<pixelHeight<<endl;
