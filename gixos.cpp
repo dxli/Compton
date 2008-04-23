@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 {
     char randomBuffer[257];
     randomInit(randomBuffer); //init random number generator
-    double pixelHeight=20./900.// angular now
+    double pixelHeight=2./900.// angular now
             ,s5h=20/900.;// slit size
     vector<double> dist_theta;
     int theta_steps=(int)(1/pixelHeight+0.5);
@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
     string fn(os0.str().c_str());
     cout<<"Deleting output file "<<fn<<endl;
     unlink(fn.c_str());
-    int l1=100,l2=5000000;
+    int l1=100,l2=50000000;
     ofstream out1;
     double l3=0.;
     int ii=1;
@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
         double dx=1./itheta_steps;
         double x0=0.5*dx;
         for (unsigned int i2=0;x0<1.;i2++){
-            out1<<x0*(2.*M_PI/0.4132)<<' '<<dist_theta.at(i2)*fac2/(1-x0*x0)<<' '<<dist_theta.at(i2)<<' '<<l3<<endl;
+            out1<<x0*(2.*M_PI/0.4132)<<' '<<dist_theta.at(i2)*fac2*(1-x0*x0)<<' '<<dist_theta.at(i2)<<' '<<l3<<endl;
             x0+=dx;
         }
         //out1<<dist_theta.size()/itheta_steps<<' '<<dist_theta.at((dist_theta.size()-1)>>1)*fac2<<' '<<s5h<<' '<<pixelHeight<<endl;
