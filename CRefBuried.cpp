@@ -10,12 +10,13 @@
 #include "block.h"
 #include "randomInit.h" //init random number generator
 using namespace std;
+#define g_l3 550. //g_l3 in mm
 
 int main()
 {
-    double s3h=20./640.,s3v=2./640., // slit size
-                            qz_max=2.; // in angstrom^-1
-    int qz_steps=100;
+    double s3h=20./(g_l3),s3v=2./(g_l3), // slit size
+                            qz_max=2.5; // in angstrom^-1
+    int qz_steps=20;
     double dqz=qz_max/qz_steps;
     vector<double> dist_theta;
     char randomBuffer[257];
@@ -24,10 +25,10 @@ int main()
     dist_theta.resize(qz_steps+2);
     for (unsigned int i=0;i<dist_theta.size();i++) dist_theta.at(i)=0.;
     int j;
-    string fn("si-Compton-RefBuried-new.txt");
+    string fn("si-Compton-RefBuried-1.txt");
     cout<<"Deleting output file "<<fn<<endl;
     unlink(fn.c_str());
-    int l2=500000000; // photons per loop
+    int l2=5000000000; // photons per loop
     ofstream out1;
     double l3=0.;
     int ii=1;
@@ -40,11 +41,20 @@ int main()
     double pk0=2*M_PI/pLambda;
     double fac1=-dqz/(2.*pk0); // dsin\theta
     thetaDistribution tP0(pEn);
-    photon p0;
+    photon p0(0.25); //sample diameter 0.25"
     struct rusage r_start,r_end;
+            double fac2=1./(s3v*s3h*l2);
+    vector<double> pEp,pEp2;
+    pEp.resize(qz_steps+2);
+    pEp2.resize(qz_steps+2);
+    for(int i=0;i<qz_steps+2;i++){
+            pEp.at(i)=0;
+            pEp2.at(i)=0;
+    }
+    for(int i=1;i<=1000000;i++){
     getrusage(RUSAGE_SELF, &r_start);
     psum=0;
-    while (ii<qz_steps){
+    for(ii=1;ii<=qz_steps;ii++){
         double t1= ii*fac1;
 //#pragma omp parallel for private( j,t0 ) reduction(+:sum) schedule(static)
         for (int i=0;i<l2;i++){
@@ -55,20 +65,22 @@ int main()
             }
         }
         getrusage(RUSAGE_SELF, &r_end); //get running time
-        l3+=l2;
-        cout<<ii<<' '<<psum<<' '<<l3<<' '<<l2/(r_end.ru_utime.tv_sec -r_start.ru_utime.tv_sec+ double(1e-6)*(r_end.ru_utime.tv_usec -r_start.ru_utime.tv_usec ) )<<" P/s\n";
+        cout<<ii<<' '<<psum<<' '<<l2<<' '<<l2/(r_end.ru_utime.tv_sec -r_start.ru_utime.tv_sec+ double(1e-6)*(r_end.ru_utime.tv_usec -r_start.ru_utime.tv_usec ) )<<" P/s\n";
         r_start=r_end;
         /*
         */
-        if (psum>1000){
-            out1.open(fn.c_str(),fstream::app);
-            double fac2=1./(s3v*s3h*l3);
-            out1<<ii*dqz<<' '<<psum*fac2<<' '<<' '<<l3<<' '<<s3h<<' '<<s3v<<endl;
-            out1.close();
-            ii++;
-            psum=0.;
-            l3=0;
-        }
+        //counts for cross-section
+        psum *=fac2;
+        pEp.at(ii) += psum;
+        pEp2.at(ii) += psum*psum;
+    }
+    out1.open(fn.c_str());
+    for(ii=1;ii<=qz_steps;ii++){
+            double a=pEp.at(ii)/i;
+            out1<<ii*dqz<<' '<<a<<' '<<pEp2.at(ii)/i-a*a<<endl;
+    }
+    out1.close();
+    cout<<"(qz cross-section) Written results to "<<fn<<endl;
     }
     return(0);
 }

@@ -131,13 +131,14 @@ ostream & operator << ( ostream& os,EulerAngles o)
 }
 
 photon::photon()
+        //defaut sample diameter 0.25"
 {
     muPE= 1.16 * 2.33; // in cm^-1, PhotoElectric
     muC= 0.15 * 2.33; // in cm^-1, compton
     muTotal=1.31 * 2.33; // in cm^-1, total
    // compton_ratio=(int) ( RAND_MAX*muC/muTotal);
     imuTotal=1./muTotal;
-    sampleL=-2.54*0.25;
+    sampleL=-2.54*0.5*0.25;
     R2= (1+1e-8)*sampleL* sampleL;
 }
 
@@ -148,7 +149,7 @@ photon::photon(double diameter)
     muTotal=1.31 * 2.33; // in cm^-1, total
    // compton_ratio=(int) ( RAND_MAX*muC/muTotal);
     imuTotal=1./muTotal;
-    sampleL=- 2.54*diameter;
+    sampleL= -2.54*0.5*diameter;
     R2= (1+1e-8)*sampleL* sampleL;
 }
 
