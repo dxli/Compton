@@ -1,6 +1,6 @@
 #general c++ compiling rule
-myldadd = compton.o block.o randomInit.o
-AM_CPPFLAGS = -fomit-frame-pointer -fexpensive-optimizations
+myldadd = compton.o block.o randomInit.o -lgomp
+AM_CPPFLAGS = -fomit-frame-pointer -fexpensive-optimizations -fopenmp
 #AM_LDFLAGS = -Wl,-O1 -Wl,--as-needed
 bin_PROGRAMS = CPassThrough CPassThrough2D CRefBuried CPTBrutal binMatrix plotCPT CRefBackground gixos CRefBuriedSizeEffect
 CRefBuried_SOURCES = CRefBuried.cpp

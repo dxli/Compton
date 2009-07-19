@@ -57,7 +57,7 @@ int main()
     psum=0;
     photon p0(d_dia*ii); //sample diameter 0.25"
         double t1= ii*fac1;
-//#pragma omp parallel for private( j,t0 ) reduction(+:sum) schedule(static)
+#pragma omp parallel for private(p0, j) reduction(+:psum) schedule(static)
         for (int i1=0;i1<l2;i1++){
             p0.initRefBuried(t1);
             while ((j=p0.propagateRef(tP0.theta()))==1);
