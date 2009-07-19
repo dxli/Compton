@@ -2,9 +2,11 @@
 myldadd = compton.o block.o randomInit.o
 AM_CPPFLAGS = -fomit-frame-pointer -fexpensive-optimizations
 #AM_LDFLAGS = -Wl,-O1 -Wl,--as-needed
-bin_PROGRAMS = CPassThrough CPassThrough2D CRefBuried CPTBrutal binMatrix plotCPT CRefBackground gixos
+bin_PROGRAMS = CPassThrough CPassThrough2D CRefBuried CPTBrutal binMatrix plotCPT CRefBackground gixos CRefBuriedSizeEffect
 CRefBuried_SOURCES = CRefBuried.cpp
 CRefBuried_LDADD =  $(myldadd)
+CRefBuriedSizeEffect_SOURCES = CRefBuriedSizeEffect.cpp
+CRefBuriedSizeEffect_LDADD =  $(myldadd)
 CPassThrough_SOURCES = CPassThrough.cpp
 CPassThrough_LDADD = $(myldadd)
 CPassThrough2D_SOURCES = CPassThrough2D.cpp
