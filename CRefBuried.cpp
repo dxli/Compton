@@ -14,7 +14,7 @@ using namespace std;
 
 int main()
 {
-    double s3h=20./(g_l3),s3v=2./(g_l3), // slit size
+    double s3h=40./(g_l3),s3v=2./(g_l3), // slit size
                             qz_max=2.5; // in angstrom^-1
     int qz_steps=20;
     double dqz=qz_max/qz_steps;
@@ -25,10 +25,10 @@ int main()
     dist_theta.resize(qz_steps+2);
     for (unsigned int i=0;i<dist_theta.size();i++) dist_theta.at(i)=0.;
     int j;
-    string fn("si-Compton-RefBuried-1.txt");
+    string fn("si-Compton-RefBuried-0.5.txt");
     cout<<"Deleting output file "<<fn<<endl;
     unlink(fn.c_str());
-    int l2=5000000000; // photons per loop
+    int l2=50000000; // photons per loop
     ofstream out1;
     double l3=0.;
     int ii=1;
@@ -41,7 +41,7 @@ int main()
     double pk0=2*M_PI/pLambda;
     double fac1=-dqz/(2.*pk0); // dsin\theta
     thetaDistribution tP0(pEn);
-    photon p0(0.25); //sample diameter 0.25"
+    photon p0(0.5); //sample diameter 0.25"
     struct rusage r_start,r_end;
             double fac2=1./(s3v*s3h*l2);
     vector<double> pEp,pEp2;
