@@ -1,5 +1,7 @@
 Monte Carlo Simulation of Compton Scattering
 
+Based on Klein-Nishina cross section.
+
 CPassThrough CPTBrutal: Compton scattering from a pass through geometry, normal and brutal force version. There two should yield the same scattering cross section
 CPassThrough2D: pass through version, but all angular position intensities collected.
 
